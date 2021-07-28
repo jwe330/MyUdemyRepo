@@ -28,9 +28,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"writeBehavior": "insert",
-						"tableOption": "autoCreate",
-						"disableMetricsCollection": false
+						"writeBehavior": "insert"
 					},
 					"enableStaging": false,
 					"translator": {
@@ -76,7 +74,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "AzureSQLSampleDBSource",
 						"type": "DatasetReference"
 					}
 				]

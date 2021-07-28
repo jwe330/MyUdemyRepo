@@ -1,0 +1,16 @@
+{
+	"name": "AzureSQLSampleDBSource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSQLSampleDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SalesLT",
+			"table": "SalesPerson"
+		}
+	}
+}
