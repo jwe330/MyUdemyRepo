@@ -1,0 +1,9 @@
+{
+	"name": "myudemydatafactory",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d37d5939-db05-4668-947e-b7da7b0d697f",
+		"tenantId": "e65615b4-2cb8-4ce2-afc8-c0e15f374c00"
+	}
+}
