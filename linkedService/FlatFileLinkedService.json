@@ -1,0 +1,17 @@
+{
+	"name": "FlatFileLinkedService",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "C:\\source\\Azure",
+			"userId": "AzureLocalUser",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJjNDUyNmViYy05NmVjLTRiNmEtOTBkNC0yNmQzY2U3NmUxZTkiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "SelfHostedIntegration",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
