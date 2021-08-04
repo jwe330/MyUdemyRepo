@@ -22,7 +22,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "AzureSqlSourceCustomer",
+						"referenceName": "AzureSourceConfig",
 						"type": "DatasetReference"
 					}
 				}
@@ -41,7 +41,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('LookupConfigTable').output.value[0].Enabled,1)",
+						"value": "@equals(activity('LookupConfigTable').output.FirstRow.Enabled,1)",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [

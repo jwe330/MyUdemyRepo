@@ -1,0 +1,12 @@
+{
+	"name": "AzureSourceConfig",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSourceDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
