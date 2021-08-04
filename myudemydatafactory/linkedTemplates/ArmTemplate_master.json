@@ -7,9 +7,21 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "myudemydatafactory"
 		},
+		"AzureDestinationDB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureDestinationDB'"
+		},
 		"AzureSQLSampleDB_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSQLSampleDB'"
+		},
+		"AzureSourceDB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSourceDB'"
+		},
+		"AzureSourceDB2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSourceDB2'"
 		},
 		"AzureSqlDatabase1_connectionString": {
 			"type": "secureString",
@@ -70,8 +82,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureDestinationDB_connectionString": {
+						"value": "[parameters('AzureDestinationDB_connectionString')]"
+					},
 					"AzureSQLSampleDB_connectionString": {
 						"value": "[parameters('AzureSQLSampleDB_connectionString')]"
+					},
+					"AzureSourceDB_connectionString": {
+						"value": "[parameters('AzureSourceDB_connectionString')]"
+					},
+					"AzureSourceDB2_connectionString": {
+						"value": "[parameters('AzureSourceDB2_connectionString')]"
 					},
 					"AzureSqlDatabase1_connectionString": {
 						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
@@ -100,6 +121,26 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "myudemydatafactory_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'myudemydatafactory_ArmTemplate_0')]"
+			]
 		}
 	]
 }

@@ -5,7 +5,16 @@
 		"factoryName": {
 			"value": "myudemydatafactory"
 		},
+		"AzureDestinationDB_connectionString": {
+			"value": ""
+		},
 		"AzureSQLSampleDB_connectionString": {
+			"value": ""
+		},
+		"AzureSourceDB_connectionString": {
+			"value": ""
+		},
+		"AzureSourceDB2_connectionString": {
 			"value": ""
 		},
 		"AzureSqlDatabase1_connectionString": {
