@@ -1,0 +1,12 @@
+{
+	"name": "AzureDestinationtable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDestinationDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
