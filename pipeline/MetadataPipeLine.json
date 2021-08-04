@@ -139,7 +139,10 @@
 										"type": "FileServerReadSettings",
 										"recursive": true,
 										"wildcardFolderPath": "*.*",
-										"wildcardFileName": "*.*",
+										"wildcardFileName": {
+											"value": "@{item().name}",
+											"type": "Expression"
+										},
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
