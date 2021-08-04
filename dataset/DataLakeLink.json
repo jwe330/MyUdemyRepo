@@ -1,0 +1,21 @@
+{
+	"name": "DataLakeLink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "udemylake1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "udemyblobcontainer1"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
