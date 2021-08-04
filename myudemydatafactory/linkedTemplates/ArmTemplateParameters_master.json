@@ -11,6 +11,9 @@
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
 		},
+		"udemylake1_accountKey": {
+			"value": ""
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://MyUdemyDefaultKeyVault.vault.azure.net/"
 		},
@@ -25,6 +28,9 @@
 		},
 		"GetMetaDataLinkedService_properties_typeProperties_userId": {
 			"value": "AzureLocalUser"
+		},
+		"udemylake1_properties_typeProperties_url": {
+			"value": "https://udemylake1.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"value": ""
