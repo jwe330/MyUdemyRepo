@@ -74,6 +74,11 @@
 				}
 			}
 		],
+		"variables": {
+			"MetaDataVar1": {
+				"type": "Array"
+			}
+		},
 		"annotations": []
 	}
 }
