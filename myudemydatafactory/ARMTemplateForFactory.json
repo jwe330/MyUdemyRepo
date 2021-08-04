@@ -145,7 +145,14 @@
 					{
 						"name": "GetMetaData",
 						"type": "GetMetadata",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "MetaDataWait",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -194,8 +201,53 @@
 								"type": "Expression"
 							}
 						}
+					},
+					{
+						"name": "IfMetaDataCondition",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "MetaDataFilter",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(activity('MetaDataFilter').output)",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "MetaDataAppendVar",
+									"type": "AppendVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "MetaDataVar1",
+										"value": "'FalseSection'"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "MetaDataWait",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 5
+						}
 					}
 				],
+				"variables": {
+					"MetaDataVar1": {
+						"type": "Array"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
