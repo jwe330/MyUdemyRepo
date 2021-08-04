@@ -70,7 +70,19 @@
 					"expression": {
 						"value": "@empty(activity('MetaDataFilter').output)",
 						"type": "Expression"
-					}
+					},
+					"ifFalseActivities": [
+						{
+							"name": "MetaDataAppendVar",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "MetaDataVar1",
+								"value": "'FalseSection'"
+							}
+						}
+					]
 				}
 			}
 		],
