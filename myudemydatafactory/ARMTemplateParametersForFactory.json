@@ -5,22 +5,25 @@
 		"factoryName": {
 			"value": "myudemydatafactory"
 		},
-		"FlatFileLinkedService_password": {
+		"AzureSQLSampleDB_connectionString": {
 			"value": ""
 		},
 		"AzureSqlDatabase1_connectionString": {
-			"value": ""
-		},
-		"AzureSQLSampleDB_connectionString": {
 			"value": ""
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://MyUdemyDefaultKeyVault.vault.azure.net/"
 		},
 		"FlatFileLinkedService_properties_typeProperties_host": {
-			"value": "C:\\source\\Azure"
+			"value": "C:\\source\\Azure\\Files"
 		},
 		"FlatFileLinkedService_properties_typeProperties_userId": {
+			"value": "AzureLocalUser"
+		},
+		"GetMetaDataLinkedService_properties_typeProperties_host": {
+			"value": "C:\\source\\Azure\\Files"
+		},
+		"GetMetaDataLinkedService_properties_typeProperties_userId": {
 			"value": "AzureLocalUser"
 		}
 	}

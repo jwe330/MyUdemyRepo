@@ -7,17 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "myudemydatafactory"
 		},
-		"FlatFileLinkedService_password": {
+		"AzureSQLSampleDB_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'FlatFileLinkedService'"
+			"metadata": "Secure string for 'connectionString' of 'AzureSQLSampleDB'"
 		},
 		"AzureSqlDatabase1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
-		},
-		"AzureSQLSampleDB_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSQLSampleDB'"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -25,9 +21,17 @@
 		},
 		"FlatFileLinkedService_properties_typeProperties_host": {
 			"type": "string",
-			"defaultValue": "C:\\source\\Azure"
+			"defaultValue": "C:\\source\\Azure\\Files"
 		},
 		"FlatFileLinkedService_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "AzureLocalUser"
+		},
+		"GetMetaDataLinkedService_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "C:\\source\\Azure\\Files"
+		},
+		"GetMetaDataLinkedService_properties_typeProperties_userId": {
 			"type": "string",
 			"defaultValue": "AzureLocalUser"
 		},
@@ -58,14 +62,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureSqlDatabase1_connectionString": {
-						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
-					},
 					"AzureSQLSampleDB_connectionString": {
 						"value": "[parameters('AzureSQLSampleDB_connectionString')]"
 					},
-					"FlatFileLinkedService_password": {
-						"value": "[parameters('FlatFileLinkedService_password')]"
+					"AzureSqlDatabase1_connectionString": {
+						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
 					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
@@ -75,6 +76,12 @@
 					},
 					"FlatFileLinkedService_properties_typeProperties_userId": {
 						"value": "[parameters('FlatFileLinkedService_properties_typeProperties_userId')]"
+					},
+					"GetMetaDataLinkedService_properties_typeProperties_host": {
+						"value": "[parameters('GetMetaDataLinkedService_properties_typeProperties_host')]"
+					},
+					"GetMetaDataLinkedService_properties_typeProperties_userId": {
+						"value": "[parameters('GetMetaDataLinkedService_properties_typeProperties_userId')]"
 					}
 				}
 			},
