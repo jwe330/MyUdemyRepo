@@ -669,7 +669,8 @@
 								"referenceName": "LookupMetaDataSet",
 								"type": "DatasetReference",
 								"parameters": {}
-							}
+							},
+							"firstRowOnly": false
 						}
 					}
 				],
