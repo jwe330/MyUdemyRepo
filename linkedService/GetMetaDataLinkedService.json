@@ -1,0 +1,23 @@
+{
+	"name": "GetMetaDataLinkedService",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "C:\\source\\Azure\\Files",
+			"userId": "AzureLocalUser",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault1",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "AzureLocalUser2"
+			}
+		},
+		"connectVia": {
+			"referenceName": "SelfHostedIntegration",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
