@@ -138,11 +138,6 @@
 									"storeSettings": {
 										"type": "FileServerReadSettings",
 										"recursive": true,
-										"wildcardFolderPath": {
-											"value": "@{item().name}",
-											"type": "Expression"
-										},
-										"wildcardFileName": "*",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
