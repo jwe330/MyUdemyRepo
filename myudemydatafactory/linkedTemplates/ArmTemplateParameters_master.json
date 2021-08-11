@@ -23,6 +23,9 @@
 		"udemylake1_accountKey": {
 			"value": ""
 		},
+		"DataFlowLinkedService_connectionString": {
+			"value": ""
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://MyUdemyDefaultKeyVault.vault.azure.net/"
 		},
