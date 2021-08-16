@@ -20,10 +20,10 @@
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
 		},
-		"udemylake1_accountKey": {
+		"DataFlowLinkedService_connectionString": {
 			"value": ""
 		},
-		"DataFlowLinkedService_connectionString": {
+		"udemylake1_accountKey": {
 			"value": ""
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
