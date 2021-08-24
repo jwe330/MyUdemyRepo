@@ -6,6 +6,14 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "myudemydatafactory"
+		},
+		"GetMetaDataLinkedService_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "C:\\source\\Azure\\Files"
+		},
+		"GetMetaDataLinkedService_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "AzureLocalUser"
 		}
 	},
 	"variables": {
@@ -13,57 +21,27 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable3')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/GetMetaDataLinkedService')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSQLSampleDB",
-					"type": "LinkedServiceReference"
-				},
 				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "InvoiceNo",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "StockCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Quantity",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "InvoiceDate",
-						"type": "date"
-					},
-					{
-						"name": "UnitPrice",
-						"type": "real",
-						"precision": 7
-					},
-					{
-						"name": "CustomerID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Country",
-						"type": "nvarchar"
-					}
-				],
+				"type": "FileServer",
 				"typeProperties": {
-					"schema": "dbo",
-					"table": "SalesData_default"
+					"host": "[parameters('GetMetaDataLinkedService_properties_typeProperties_host')]",
+					"userId": "[parameters('GetMetaDataLinkedService_properties_typeProperties_userId')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AzureKeyVault1",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "AzureLocalUser2"
+					}
+				},
+				"connectVia": {
+					"referenceName": "SelfHostedIntegration",
+					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": []
@@ -240,7 +218,9 @@
 					}
 				]
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/GetMetaDataLinkedService')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/LookupMetaDataSet')]",
@@ -298,7 +278,9 @@
 					}
 				]
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/GetMetaDataLinkedService')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DataFlowDemo1')]",
@@ -342,14 +324,15 @@
 					"transformations": [
 						{
 							"name": "ConditionalSplit1"
+						},
+						{
+							"name": "DerivedColumn"
 						}
 					],
-					"script": "source(output(\n\t\tInvoiceNo as integer,\n\t\tStockCode as string,\n\t\tDescription as string,\n\t\tQuantity as integer,\n\t\tInvoiceDate as date,\n\t\tUnitPrice as float,\n\t\tCustomerID as integer,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> DataLake\nDataLake split(UnitPrice >1 && UnitPrice <3,\n\tUnitPrice > 3 && UnitPrice <4,\n\tdisjoint: false) ~> ConditionalSplit1@(Stream1, Stream2, DefaultStream)\nConditionalSplit1@Stream1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tInvoiceNo as integer,\n\t\tStockCode as string,\n\t\tDescription as string,\n\t\tQuantity as integer,\n\t\tInvoiceDate as date,\n\t\tUnitPrice as float,\n\t\tCustomerID as integer,\n\t\tCountry as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> SQLDataBaseSink\nConditionalSplit1@Stream2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1\nConditionalSplit1@DefaultStream sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tInvoiceNo as integer,\n\t\tStockCode as string,\n\t\tDescription as string,\n\t\tQuantity as integer,\n\t\tInvoiceDate as date,\n\t\tUnitPrice as float,\n\t\tCustomerID as integer,\n\t\tCountry as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink2"
+					"script": "source(output(\n\t\tInvoiceNo as integer,\n\t\tStockCode as string,\n\t\tDescription as string,\n\t\tQuantity as integer,\n\t\tInvoiceDate as date,\n\t\tUnitPrice as float,\n\t\tCustomerID as integer,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> DataLake\nDerivedColumn split(UnitPrice >1 && UnitPrice <3,\n\tUnitPrice > 3 && UnitPrice <4,\n\tdisjoint: false) ~> ConditionalSplit1@(Stream1, Stream2, DefaultStream)\nDataLake derive(CustomName = \"To Be Completed\") ~> DerivedColumn\nConditionalSplit1@Stream1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tInvoiceNo as integer,\n\t\tStockCode as string,\n\t\tDescription as string,\n\t\tQuantity as integer,\n\t\tInvoiceDate as date,\n\t\tUnitPrice as float,\n\t\tCustomerID as integer,\n\t\tCountry as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> SQLDataBaseSink\nConditionalSplit1@Stream2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1\nConditionalSplit1@DefaultStream sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tInvoiceNo as integer,\n\t\tStockCode as string,\n\t\tDescription as string,\n\t\tQuantity as integer,\n\t\tInvoiceDate as date,\n\t\tUnitPrice as float,\n\t\tCustomerID as integer,\n\t\tCountry as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink2"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable3')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DataFlowPipe')]",

@@ -50,14 +50,6 @@
 		"FlatFileLinkedService_properties_typeProperties_userId": {
 			"type": "string",
 			"defaultValue": "AzureLocalUser"
-		},
-		"GetMetaDataLinkedService_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "C:\\source\\Azure\\Files"
-		},
-		"GetMetaDataLinkedService_properties_typeProperties_userId": {
-			"type": "string",
-			"defaultValue": "AzureLocalUser"
 		}
 	},
 	"variables": {
@@ -337,6 +329,85 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSQLSampleDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "SalesData_stream2"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQLSampleDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSQLSampleDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "InvoiceNo",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "StockCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Quantity",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "InvoiceDate",
+						"type": "date"
+					},
+					{
+						"name": "UnitPrice",
+						"type": "real",
+						"precision": 7
+					},
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Country",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "SalesData_default"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQLSampleDB')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DataLakeLink')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -503,56 +574,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/SelfHostedIntegration')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVault1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/GetMetaDataLinkedService')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "FileServer",
-				"typeProperties": {
-					"host": "[parameters('GetMetaDataLinkedService_properties_typeProperties_host')]",
-					"userId": "[parameters('GetMetaDataLinkedService_properties_typeProperties_userId')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AzureKeyVault1",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "AzureLocalUser2"
-					}
-				},
-				"connectVia": {
-					"referenceName": "SelfHostedIntegration",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SelfHostedIntegration')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVault1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSQLSampleDB",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "SalesData_stream2"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSQLSampleDB')]"
 			]
 		}
 	]

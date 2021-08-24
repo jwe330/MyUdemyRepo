@@ -118,12 +118,6 @@
 					},
 					"FlatFileLinkedService_properties_typeProperties_userId": {
 						"value": "[parameters('FlatFileLinkedService_properties_typeProperties_userId')]"
-					},
-					"GetMetaDataLinkedService_properties_typeProperties_host": {
-						"value": "[parameters('GetMetaDataLinkedService_properties_typeProperties_host')]"
-					},
-					"GetMetaDataLinkedService_properties_typeProperties_userId": {
-						"value": "[parameters('GetMetaDataLinkedService_properties_typeProperties_userId')]"
 					}
 				}
 			},
@@ -142,6 +136,12 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"GetMetaDataLinkedService_properties_typeProperties_host": {
+						"value": "[parameters('GetMetaDataLinkedService_properties_typeProperties_host')]"
+					},
+					"GetMetaDataLinkedService_properties_typeProperties_userId": {
+						"value": "[parameters('GetMetaDataLinkedService_properties_typeProperties_userId')]"
 					}
 				}
 			},
