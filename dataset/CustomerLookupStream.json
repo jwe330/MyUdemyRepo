@@ -1,0 +1,26 @@
+{
+	"name": "CustomerLookupStream",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSQLSampleDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Name",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "customerdata"
+		}
+	}
+}
