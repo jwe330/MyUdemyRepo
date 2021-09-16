@@ -29,9 +29,9 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"preCopyScript": "truncate table [SalesLT].[SalesPerson]",
-						"writeBehavior": "insert",
 						"tableOption": "autoCreate",
-						"disableMetricsCollection": false
+						"disableMetricsCollection": false,
+						"writeBehavior": "insert"
 					},
 					"enableStaging": false,
 					"translator": {
