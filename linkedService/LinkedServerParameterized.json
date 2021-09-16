@@ -1,0 +1,18 @@
+{
+	"name": "LinkedServerParameterized",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"ParamLinkedServer": {
+				"type": "String",
+				"defaultValue": "myudemyserver1.database.windows.net"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=@{linkedService().ParamLinkedServer};initial catalog=MySampleDB;user id=jweadmin",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIk1ZVURFTVlEQVRBRkFDVE9SWV9kYThjZDE3OS04OWU1LTQ0NTUtOTJlZS1mODYzY2Y3ZDdmZmMiDQp9"
+		}
+	}
+}
