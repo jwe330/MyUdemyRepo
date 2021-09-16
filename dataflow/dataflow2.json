@@ -22,18 +22,21 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureDestinationtable",
+						"referenceName": "AzureSQLSampleDBSource",
 						"type": "DatasetReference"
 					},
-					"name": "HR"
+					"name": "sink1"
 				}
 			],
 			"transformations": [
 				{
-					"name": "Exists1"
+					"name": "Join1"
+				},
+				{
+					"name": "ConditionalSplit1"
 				}
 			],
-			"script": "source(output(\n\t\tDept_ID as integer,\n\t\tDept_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Customers\nsource(output(\n\t\tDept_ID as integer,\n\t\tDept_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Department\nCustomers, Department exists(Department@Dept_ID == 100,\n\tnegate:false,\n\tbroadcast: 'auto')~> Exists1\nExists1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HR"
+			"script": "source(output(\n\t\tDept_ID as integer,\n\t\tDept_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Customers\nsource(output(\n\t\tDept_ID as integer,\n\t\tDept_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Department\nCustomers, Department join(Customers@Dept_ID == Department@Dept_ID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 split(Department@Dept_Name == 'HR',\n\tdisjoint: false) ~> ConditionalSplit1@(HR, Finance)\nConditionalSplit1@HR sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1"
 		}
 	}
 }
