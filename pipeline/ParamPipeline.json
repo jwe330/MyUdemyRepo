@@ -1,0 +1,12 @@
+{
+	"name": "ParamPipeline",
+	"properties": {
+		"parameters": {
+			"ServerNameParam": {
+				"type": "string",
+				"defaultValue": "myudemyserver1.database.windows.net"
+			}
+		},
+		"annotations": []
+	}
+}
