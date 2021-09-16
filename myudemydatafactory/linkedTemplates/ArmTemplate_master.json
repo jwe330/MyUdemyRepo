@@ -7,6 +7,18 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "myudemydatafactory"
 		},
+		"Assignment3Customers_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Assignment3Customers'"
+		},
+		"Assignment3Finance_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Assignment3Finance'"
+		},
+		"Assignment3HR_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Assignment3HR'"
+		},
 		"AzureDestinationDB_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureDestinationDB'"
@@ -31,21 +43,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'DataFlowLinkedService'"
 		},
+		"LinkedServerParameterized_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LinkedServerParameterized'"
+		},
 		"udemylake1_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'udemylake1'"
-		},
-		"Assignment3Customers_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Assignment3Customers'"
-		},
-		"Assignment3HR_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Assignment3HR'"
-		},
-		"Assignment3Finance_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Assignment3Finance'"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -98,6 +102,15 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"Assignment3Customers_connectionString": {
+						"value": "[parameters('Assignment3Customers_connectionString')]"
+					},
+					"Assignment3Finance_connectionString": {
+						"value": "[parameters('Assignment3Finance_connectionString')]"
+					},
+					"Assignment3HR_connectionString": {
+						"value": "[parameters('Assignment3HR_connectionString')]"
+					},
 					"AzureDestinationDB_connectionString": {
 						"value": "[parameters('AzureDestinationDB_connectionString')]"
 					},
@@ -116,17 +129,11 @@
 					"DataFlowLinkedService_connectionString": {
 						"value": "[parameters('DataFlowLinkedService_connectionString')]"
 					},
+					"LinkedServerParameterized_connectionString": {
+						"value": "[parameters('LinkedServerParameterized_connectionString')]"
+					},
 					"udemylake1_accountKey": {
 						"value": "[parameters('udemylake1_accountKey')]"
-					},
-					"Assignment3Customers_connectionString": {
-						"value": "[parameters('Assignment3Customers_connectionString')]"
-					},
-					"Assignment3HR_connectionString": {
-						"value": "[parameters('Assignment3HR_connectionString')]"
-					},
-					"Assignment3Finance_connectionString": {
-						"value": "[parameters('Assignment3Finance_connectionString')]"
 					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"

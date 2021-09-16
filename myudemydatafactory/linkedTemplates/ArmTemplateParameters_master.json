@@ -5,6 +5,15 @@
 		"factoryName": {
 			"value": "myudemydatafactory"
 		},
+		"Assignment3Customers_connectionString": {
+			"value": ""
+		},
+		"Assignment3Finance_connectionString": {
+			"value": ""
+		},
+		"Assignment3HR_connectionString": {
+			"value": ""
+		},
 		"AzureDestinationDB_connectionString": {
 			"value": ""
 		},
@@ -23,16 +32,10 @@
 		"DataFlowLinkedService_connectionString": {
 			"value": ""
 		},
+		"LinkedServerParameterized_connectionString": {
+			"value": ""
+		},
 		"udemylake1_accountKey": {
-			"value": ""
-		},
-		"Assignment3Customers_connectionString": {
-			"value": ""
-		},
-		"Assignment3HR_connectionString": {
-			"value": ""
-		},
-		"Assignment3Finance_connectionString": {
 			"value": ""
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
