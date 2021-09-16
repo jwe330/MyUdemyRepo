@@ -1,0 +1,23 @@
+{
+	"name": "ParamDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServerParameterized",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ParamLinkedServer": {
+					"value": "@dataset().DatasetParam",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"DatasetParam": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
