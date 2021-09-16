@@ -2,7 +2,7 @@
 	"name": "AzureSQLSampleDBSource",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlDatabase1",
+			"referenceName": "Assignment3Finance",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
