@@ -2,7 +2,7 @@
 	"name": "AzureDestinationtable",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureDestinationDB",
+			"referenceName": "AzureSQLSampleDB",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "Customer"
+			"table": "HR"
 		}
 	}
 }
