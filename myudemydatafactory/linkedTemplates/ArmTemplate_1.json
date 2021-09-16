@@ -336,6 +336,35 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Assignment3Finance')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Assignment3Finance",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Cust_ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Customer_Name",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Finance"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Assignment2')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -719,14 +748,14 @@
 								"referenceName": "Assignment3HR",
 								"type": "DatasetReference"
 							},
-							"name": "sink1"
+							"name": "sink2"
 						},
 						{
 							"dataset": {
-								"referenceName": "AzureSQLSampleDBSource",
+								"referenceName": "Assignment3Finance",
 								"type": "DatasetReference"
 							},
-							"name": "sink2"
+							"name": "sink3"
 						}
 					],
 					"transformations": [
@@ -734,15 +763,16 @@
 							"name": "Join1"
 						},
 						{
-							"name": "ConditionalSplit1"
+							"name": "ConditionalSplitAssignment3"
 						}
 					],
-					"script": "source(output(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string,\n\t\tDept_ID as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Customers\nsource(output(\n\t\tDept_ID as integer,\n\t\tDept_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Department\nCustomers, Department join(Customers@Dept_ID == Department@Dept_ID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 split(Department@Dept_ID == 100,\n\tdisjoint: true) ~> ConditionalSplit1@(HR, Finance)\nConditionalSplit1@HR sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1\nConditionalSplit1@Finance sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink2"
+					"script": "source(output(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string,\n\t\tDept_ID as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Customers\nsource(output(\n\t\tDept_ID as integer,\n\t\tDept_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Department\nCustomers, Department join(Customers@Dept_ID == Department@Dept_ID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 split(Department@Dept_ID == 100,\n\tDepartment@Dept_ID == 500,\n\tdisjoint: false) ~> ConditionalSplitAssignment3@(HR, Finance, Default)\nConditionalSplitAssignment3@HR sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink2\nConditionalSplitAssignment3@Finance sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink3"
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Assignment3Customers')]",
-				"[concat(variables('factoryId'), '/datasets/Assignment3HR')]"
+				"[concat(variables('factoryId'), '/datasets/Assignment3HR')]",
+				"[concat(variables('factoryId'), '/datasets/Assignment3Finance')]"
 			]
 		},
 		{
@@ -771,8 +801,8 @@
 								"datasetParameters": {
 									"Customers": {},
 									"Department": {},
-									"sink1": {},
-									"sink2": {}
+									"sink2": {},
+									"sink3": {}
 								}
 							},
 							"staging": {},
@@ -890,105 +920,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FlatFilePipeLine')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "CopyFlatFileData",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "truncate table [SalesLT].[SalesPerson]",
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false,
-								"writeBehavior": "insert"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "CustomerID",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "Name",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "SalesPerson",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "FlatFileSource",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSQLSampleDBSource",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/FlatFileSource')]"
 			]
 		}
 	]
