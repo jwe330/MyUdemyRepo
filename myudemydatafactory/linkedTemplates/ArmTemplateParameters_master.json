@@ -26,6 +26,15 @@
 		"udemylake1_accountKey": {
 			"value": ""
 		},
+		"Assignment3Customers_connectionString": {
+			"value": ""
+		},
+		"Assignment3HR_connectionString": {
+			"value": ""
+		},
+		"Assignment3Finance_connectionString": {
+			"value": ""
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://MyUdemyDefaultKeyVault.vault.azure.net/"
 		},

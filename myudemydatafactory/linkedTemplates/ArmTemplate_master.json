@@ -35,6 +35,18 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'udemylake1'"
 		},
+		"Assignment3Customers_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Assignment3Customers'"
+		},
+		"Assignment3HR_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Assignment3HR'"
+		},
+		"Assignment3Finance_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Assignment3Finance'"
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://MyUdemyDefaultKeyVault.vault.azure.net/"
@@ -107,6 +119,15 @@
 					"udemylake1_accountKey": {
 						"value": "[parameters('udemylake1_accountKey')]"
 					},
+					"Assignment3Customers_connectionString": {
+						"value": "[parameters('Assignment3Customers_connectionString')]"
+					},
+					"Assignment3HR_connectionString": {
+						"value": "[parameters('Assignment3HR_connectionString')]"
+					},
+					"Assignment3Finance_connectionString": {
+						"value": "[parameters('Assignment3Finance_connectionString')]"
+					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
 					},
@@ -147,6 +168,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'myudemydatafactory_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "myudemydatafactory_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'myudemydatafactory_ArmTemplate_1')]"
 			]
 		}
 	]

@@ -35,6 +35,18 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'udemylake1'"
 		},
+		"Assignment3Customers_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Assignment3Customers'"
+		},
+		"Assignment3HR_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Assignment3HR'"
+		},
+		"Assignment3Finance_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Assignment3Finance'"
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://MyUdemyDefaultKeyVault.vault.azure.net/"
@@ -744,7 +756,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
+					"referenceName": "Assignment3Finance",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -766,7 +778,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+				"[concat(variables('factoryId'), '/linkedServices/Assignment3Finance')]"
 			]
 		},
 		{
@@ -1627,7 +1639,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "Department",
+								"referenceName": "Assignment3Customers",
 								"type": "DatasetReference"
 							},
 							"name": "Customers"
@@ -1643,7 +1655,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "AzureSQLSampleDBSource",
+								"referenceName": "Assignment3HR",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
@@ -1664,14 +1676,121 @@
 							"name": "ConditionalSplit1"
 						}
 					],
-					"script": "source(output(\n\t\tDept_ID as integer,\n\t\tDept_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Customers\nsource(output(\n\t\tDept_ID as integer,\n\t\tDept_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Department\nCustomers, Department join(Customers@Dept_ID == Department@Dept_ID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 split(Department@Dept_ID == 100,\n\tdisjoint: true) ~> ConditionalSplit1@(HR, Finance)\nConditionalSplit1@HR sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1\nConditionalSplit1@Finance sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink2"
+					"script": "source(output(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string,\n\t\tDept_ID as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Customers\nsource(output(\n\t\tDept_ID as integer,\n\t\tDept_Name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Department\nCustomers, Department join(Customers@Dept_ID == Department@Dept_ID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 split(Department@Dept_ID == 100,\n\tdisjoint: true) ~> ConditionalSplit1@(HR, Finance)\nConditionalSplit1@HR sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1\nConditionalSplit1@Finance sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCust_ID as integer,\n\t\tCustomer_Name as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink2"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Department')]",
+				"[concat(variables('factoryId'), '/datasets/Assignment3Customers')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable4')]",
+				"[concat(variables('factoryId'), '/datasets/Assignment3HR')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSQLSampleDBSource')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Assignment3Customers')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('Assignment3Customers_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Assignment3Customers')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Assignment3Customers",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Cust_ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Customer_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Dept_ID",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Customer"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Assignment3Customers')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Assignment3HR')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('Assignment3HR_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Assignment3HR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Assignment3HR",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Cust_ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Customer_Name",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "HR"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Assignment3HR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Assignment3Finance')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('Assignment3Finance_connectionString')]"
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }
