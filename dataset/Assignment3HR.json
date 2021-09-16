@@ -1,0 +1,26 @@
+{
+	"name": "Assignment3HR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Assignment3HR",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Cust_ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Customer_Name",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "HR"
+		}
+	}
+}
