@@ -42,14 +42,6 @@
 		"udemylake1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://udemylake1.dfs.core.windows.net"
-		},
-		"FlatFileLinkedService_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "C:\\source\\Azure\\Files"
-		},
-		"FlatFileLinkedService_properties_typeProperties_userId": {
-			"type": "string",
-			"defaultValue": "AzureLocalUser"
 		}
 	},
 	"variables": {
@@ -408,6 +400,37 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/CustomerLookupStream')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSQLSampleDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "customerdata"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQLSampleDB')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DataLakeLink')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -545,35 +568,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/udemylake1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FlatFileLinkedService')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "FileServer",
-				"typeProperties": {
-					"host": "[parameters('FlatFileLinkedService_properties_typeProperties_host')]",
-					"userId": "[parameters('FlatFileLinkedService_properties_typeProperties_userId')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AzureKeyVault1",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "AzureLocalUser2"
-					}
-				},
-				"connectVia": {
-					"referenceName": "SelfHostedIntegration",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SelfHostedIntegration')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVault1')]"
 			]
 		}
 	]
