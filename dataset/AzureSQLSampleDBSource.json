@@ -2,7 +2,7 @@
 	"name": "AzureSQLSampleDBSource",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSQLSampleDB",
+			"referenceName": "AzureSqlDatabase1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -20,7 +20,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "HR"
+			"table": "Finance"
 		}
 	}
 }
