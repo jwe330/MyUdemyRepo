@@ -218,6 +218,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"PipelineParam": {
+				"type": "string"
+			}
+		},
 		"variables": {
 			"MetaDataVar1": {
 				"type": "Array"
